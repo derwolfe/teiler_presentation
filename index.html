@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Teiler</title>
+
+    <meta name="description" content="Discussion regarding the Teiler filesharing program">
+    <meta name="author" content="Chris Wolfe">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = 'css/print/pdf.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+
+    <!--[if lt IE 9]>
+	<script src="lib/js/html5shiv.js"></script>
+	<![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+
+      <div class="slides">
+	<section class="" data-id="b8ced07bedc8c51c13d6adc402af6a8f">
+	  <h1>
+	    <span style="font-size: 135.72px;">Teiler</span>
+	    <br>
+	  </h1>
+	  <div>means sharer in German</div>
+	  <hr/>
+	  <div>
+	    <span style="font-size: 35.4107666015625px; font-style: normal; font-variant: normal;">@chriswwolfe</span>
+	    <br>
+	  </div>
+	  <div>github - derwolfe</div>
+	  <div>#freenode - herrwolfe45</div>
+	</section>
+	<section class="" data-id="06885e459a6877401b9250da79855f61">
+	  <h2>What is it?</h2>
+	  <div>LAN level file sharing program</div>
+	  <div>
+	    <ul>
+	      <li>Written in Python</li>
+	      <li>Uses the <b>excellent</b> Twisted networking framework<span>&nbsp;</span>
+	      </li>
+	    </ul>
+	  </div>
+	  <div>
+	    <img src="https://s3.amazonaws.com/media-p.slid.es/uploads/herrwolfe45/images/564178/2000px-Twisted_Logo__software_.png" style="font-size: 30.617677688598633px; font-style: normal; font-variant: normal; max-width: none; max-height: none; text-align: left; width: 332.2945863155344px; height: 351.10330154441294px;">
+	    <br>
+	  </div>
+	</section>
+	<section class="" data-id="cd8ff2b1de2d0351e25eb78ec26b8610">
+	  <h2>Why Twisted?</h2>
+	  <div>
+	    <ol>
+              <li>Strong focus on protocols</li>
+              <li>Heavy emphasis on unit testing</li>
+              <li>Excellent community, active IRC</li>
+              <li>Asynchronous, event driven</li>
+              <li>Batteries included (protocols, static file server, etc.)</li>
+              <li>It's Python</li>
+	    </ol>
+	  </div>
+	</section>
+	<section class="" data-id="0a3de7ea403b058b121911036fdbf105">
+	  <h2>Why this?</h2>
+	  <div>
+	    <ul>
+	      <li>netcat &amp; ssh</li>
+	      <li>Samba</li>
+	      <li>Dropbox/Spideroak</li>
+	      <li>thumb drives</li>
+	      <li>simple web server/file server</li>
+	      <li>Syncthing*</li>
+	    </ul>
+	  </div>
+	  <br>
+	  <div>* I recently discovered Syncthing - it does practically everything I want and more:&nbsp;<a href="http://syncthing.net/">http://syncthing.net/</a>
+	  </div>
+	</section>
+	<section class="stack" data-id="de0175d9fd177ead8b49d6b94b633e8a">
+	  <section class="" data-id="3d7c614699a1623e00a14ace968cc894">
+	    <h2>How is it designed?</h2>
+	    <div>
+	      <ol>
+		<li>Peer discovery</li>
+		<li>File sharing</li>
+		<li>Security</li>
+	      </ol>
+	    </div>
+	  </section>
+	  <section class="" data-id="54de2df03f8a81129094406c2e289b9e">
+	    <h2>Peer discovery</h2>
+	    <div style="text-align: left; ">
+	      <ul>
+		<li>On application startup, broadcast UDP datagram containing peer contact information</li>
+		<li>On exit, send message requesting peer removal.</li>
+		<li>On receipt of datagram, decode message, check if peer should be added, or removed.</li>
+	      </ul>
+	    </div>
+	  </section>
+	  <section class="" data-id="79045abaf750419e5365688e438d1423">
+	    <h2>File sharing</h2>
+	    <div>
+	      <h4>Basically a web server serving static assets</h4>
+	      <ul>
+		<li>Communicate by interacting with HTTP apis</li>
+		<li>Request a transfer by POSTing request to intended recipient</li>
+		<li>Accept a tranfer by GETting files</li>
+		<li>Provide status updates by POSTing back to host</li>
+	      </ul>
+	    </div>
+	  </section>
+	  <section class="" data-id="9eee2846f3ff67a7955583554ac66123">
+	    <h2>Security</h2>
+	    <div>
+	      <ul>
+		<li>Local network sidesteps many issues</li>
+		<li>But, remember firesheep and coffee shops.</li>
+		<li>Use TLS for all traffic.</li>
+		<li>Generate self signed certificates and persist.</li>
+		<li>Can be relatively sure that first contact is genuine and secure.</li>
+	      </ul>
+	    </div>
+	  </section>
+	</section>
+	<section class="" data-id="54858e6c5b3cb9be71298df8ffc8a654">
+	  <h2>What needs to be done?</h2>
+	  <div>
+	    <ul>
+	      <li>Sending status updates</li>
+	      <li>Automated file downloads - partially there</li>
+	      <li>A front end - starting off with web interface but am interested in QT</li>
+	      <li>Packaging - use something like cx_freeze to create a distributable application that can be opened with a single click.</li>
+	      <li>TLS and all security related things</li>
+	    </ul>
+	  </div>
+	</section>
+	<section class="" data-id="e78ba0eb587765b6d050f7215fb43e35">
+	  <h2>Thanks!</h2>
+	  <div>Questions? Comments? Suggestions?</div>
+	  <div>
+	    <br>
+	  </div>
+	  <div>The code lives at:</div>
+	  <div>
+	    <br>
+	  </div>
+	  <div>
+	    <a href="https://github.com/derwolfe/teiler">github.com/derwolfe/teiler</a>
+	  </div>
+	  <div>
+	    <br>
+	  </div>
+	</section>
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+
+      theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+      transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+      // Parallax scrolling
+      // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+      // parallaxBackgroundSize: '2100px 900px',
+
+      // Optional libraries used to extend on reveal.js
+      dependencies: [
+      { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+      { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+      ]
+      });
+
+    </script>
+
+  </body>
+</html>
